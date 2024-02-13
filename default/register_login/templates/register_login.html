@@ -61,11 +61,11 @@
                             </div>
                             <div class="card-body">
                                 {% if not register %}
-                                <form>
+                                <form method="post" action="{% url 'register_login:login' %}">
                                     {% crispy form %}
                                 </form>
                                 {% else %}
-                                <form>
+                                <form method="post" action="{% url 'register_login:register' %}">
                                     {% crispy form %}
                                 </form>
                                 {% endif %}
