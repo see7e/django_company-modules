@@ -52,3 +52,4 @@
 - [ ] `register_login.html`: reduce some of the nestings
 - [ ] `register_login.html`: replace form with forms.py code
 - [ ] `styles.css`: remove the unused classes in file
+- [x] implement the update of the menus in the `sidenav` by `@update_sidenav` decorator	

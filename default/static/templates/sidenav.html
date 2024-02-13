@@ -1,12 +1,50 @@
 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
     <div class="sb-sidenav-menu">
         <div class="nav">
-            <div class="sb-sidenav-menu-heading">Core</div>
-            <a class="nav-link" href="{% url "register_login:index" %}">
+
+            <div class="sb-sidenav-menu-heading">Automatic menus</div>
+            {% for menu_item in request.session.menu_data %}
+            {% if not menu_item.items.0.submenu %}
+                {% comment %} <!-- Iterate through menu items without submenus --> {% endcomment %}
+                <a class="nav-link" href="{% url menu_item.items.0.url %}">
+                    <div class="sb-nav-link-icon">
+                        <i class="{{ menu_item.items.0.icon }}"></i>
+                    </div>
+                    {{ menu_item.menu }}
+                </a>
+            {% else %}
+                {% comment %} <!-- Iterate through menu items with submenus --> {% endcomment %}
+                {% comment %} <div class="sb-sidenav-menu-heading">Dropdowns</div> {% endcomment %}
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                    data-bs-target="#{{ menu_item.menu|lower|slugify }}" aria-expanded="false" 
+                    aria-controls="{{ menu_item.menu|lower|slugify }}"
+                >
+                    <div class="sb-nav-link-icon">
+                        <i class="fas fa-columns"></i>
+                    </div>
+                    {{ menu_item.menu }}
+                    <div class="sb-sidenav-collapse-arrow">
+                        <i class="fas fa-angle-down"></i>
+                    </div>
+                </a>
+                <div class="collapse" id="{{ menu_item.menu|lower|slugify }}" aria-labelledby="headingOne" 
+                    data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        {% for item in menu_item.items %}
+                            <a class="nav-link" href="{% url item.url %}">{{ item.submenu }}</a>
+                        {% endfor %}
+                    </nav>
+                </div>
+            {% endif %}
+            {% endfor %}
+            
+            <div class="sb-sidenav-menu-heading">Not automatic menus</div>
+
+            {% comment %}
+            <a class="nav-link" href="{% url "register_login:home" %}">
                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                 Dashboard
             </a>
-            <div class="sb-sidenav-menu-heading">Interface</div>
             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                 Layouts
@@ -49,7 +87,6 @@
                     </div>
                 </nav>
             </div>
-            <div class="sb-sidenav-menu-heading">Addons</div>
             <a class="nav-link" href="charts.html">
                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                 Charts
@@ -57,7 +94,7 @@
             <a class="nav-link" href="tables.html">
                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                 Tables
-            </a>
+            </a> {% endcomment %}
         </div>
     </div>
     {% if request.user.is_authenticated %}

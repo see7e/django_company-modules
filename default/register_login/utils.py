@@ -20,17 +20,14 @@ from .models import Menu, CustomUser
 def update_sidenav(func):
     @wraps(func)
     def wrapper(request, *args, **kwargs):
-        print("Updating sidenav")
+        print("Updating sidenav menus...")
 
-        # Fetch managed teams and subteams
-        managed_teams = request.user.managed_teams.all()
-        managed_subteams = request.user.managed_subteams.all()
-
-        # Combine queries using Q objects for optimization
+        # Query for the side menu
         menu_data = (
             Menu.objects
-            .filter(Q(team__in=managed_teams) | Q(subteam__in=managed_subteams))
-            .values('id', 'menu', 'submenu', 'url')
+            # .filter(Q(group__in=request.user.groups.all()) | Q(subgroup=request.user.subgroup))
+            .filter(group__in=request.user.groups.all())
+            .values('id', 'menu', 'submenu', 'url', 'icon', 'group', 'subgroup')
             .distinct()
         )
 
@@ -43,13 +40,20 @@ def update_sidenav(func):
         # Group items by menu
         for item in data:
             menu = item['menu']
-            grouped_data[menu].append({'id': item['id'], 'submenu': item['submenu'], 'url': item['url']})
+            grouped_data[menu].append({
+                'id': item['id'],
+                'submenu': item['submenu'],
+                'icon': item['icon'],
+                'url': item['url'],
+                'group': item['group'],
+                'subgroup': item['subgroup']
+            })
 
         # Convert the dictionary back to a list of dictionaries
-        result_list = [{'menu': menu, 'submenus': submenus} for menu, submenus in grouped_data.items()]
+        result_list = [{'menu': menu, 'items': items} for menu, items in grouped_data.items()]
 
         # Store the data in the session
-        request.session['user_menu'] = result_list
+        request.session['menu_data'] = result_list
 
         return func(request, *args, **kwargs)
     return wrapper

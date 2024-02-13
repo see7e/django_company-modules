@@ -9,5 +9,5 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('sso-login/', views.sso_login, name='sso_login'),
     path('register/', views.register, name='register'),
-    path('home/', views.index, name='index'),
+    path('home/', views.index, name='home'),
 ]

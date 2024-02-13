@@ -37,6 +37,10 @@ SECRET_KEY = 'django-insecure-b1l4cgbj3e9_&4gm4+p3b_87rscg5qu0_fuo)hxro&i0n=dn()
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
+
 # Application definition
 
 AUTH_USER_MODEL = 'register_login.CustomUser'
@@ -186,7 +190,7 @@ LANGUAGES = [
 ]
 
 # Set the default language
-LANGUAGE_DEFAULT = 'en'
+LANGUAGE_DEFAULT = 'en-us'
 DEFAULT_CHARSET = 'utf-8'
 
 # Set the directory where translation files will be stored

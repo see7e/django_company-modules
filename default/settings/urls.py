@@ -17,9 +17,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
+from django.conf import settings
 
 urlpatterns = [
     path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
     path('', include('register_login.urls', namespace='register_login')),
 ]
+
+# Add debug toolbar to urlpatterns
+if settings.DEBUG:
+    import debug_toolbar
+
+    # Show debug toolbar
+    urlpatterns += [path('__debug__/', include(debug_toolbar.urls))]
+
+    # # Add media files to urlpatterns
+    # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

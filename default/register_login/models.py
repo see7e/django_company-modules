@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager, Group
+from django.db.models.deletion import SET_NULL
 from django.utils.translation import gettext_lazy as _
 
 
@@ -29,7 +30,6 @@ class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
-    group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True)
     subgroup = models.ForeignKey('SubGroup', on_delete=models.CASCADE, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -40,7 +40,7 @@ class CustomUser(AbstractUser):
     REQUIRED_FIELDS = ['first_name', 'last_name',]
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name} - {self.email} - {self.group} - {self.subgroup}'
+        return f'{self.first_name} {self.last_name} - {self.email} - {self.subgroup}'
     
     def has_module_perms(self, app_label):
         return self.is_staff
@@ -57,9 +57,12 @@ class SubGroup(models.Model):
     
 
 class Menu(models.Model):
-    menu = models.ForeignKey(Group, on_delete=models.CASCADE)
-    submenu = models.ForeignKey(SubGroup, on_delete=models.CASCADE)
-    url = models.CharField(max_length=100)
+    menu = models.CharField(max_length=50)
+    submenu = models.CharField(max_length=50, blank=True, null=True)
+    icon = models.CharField(max_length=50, null=True)
+    url = models.CharField(max_length=100, null=True)
+    group = models.ForeignKey(Group, on_delete=SET_NULL, blank=True, null=True)
+    subgroup = models.ForeignKey(SubGroup, on_delete=SET_NULL, blank=True, null=True)
     
     def __str__(self):
         return f'{self.menu} - {self.submenu} - {self.url}'

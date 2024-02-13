@@ -2,13 +2,14 @@ from allauth.socialaccount.models import SocialAccount
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 
 from .models import CustomUser
 from .forms import LoginForm, RegisterForm
 from .utils import update_sidenav
 
-
-# @update_sidenav
+@login_required
+@update_sidenav
 def index(request):
     # For now, the index has the same content as the dashboard
     return render(request, 'dashboard.html')
@@ -29,7 +30,7 @@ def register(request):
             login(request, user)
 
             # Render the index page
-            return redirect('/')
+            return render(request, 'home')
     else:
         form = RegisterForm()
 
@@ -52,7 +53,7 @@ def login(request):
                 login(request, user)
                 
                 # Render the index page
-                return redirect('/')
+                return render(request, 'home')
             else:
                 # Invalid credentials, show an error message
                 error_message = "Invalid email or password."
@@ -77,7 +78,7 @@ def sso_login(request):
             login(request, user)
             
             # Render the index page
-            return redirect('/')
+            return render(request, 'home')
         except SocialAccount.DoesNotExist:
             # User not found, show an error message
             error_message = "User not found."
