@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth.models import Group
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit, Row, Column, Div, HTML
 
 from .models import CustomUser
 
@@ -41,60 +43,58 @@ class MultiSelectionGroupForm(forms.ModelForm):
     
 
 class LoginForm(forms.Form):
-    class Meta:
-        model = CustomUser
-        fields = ['email', 'password']
-
     email = forms.EmailField(label='Email')
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
-    # remember_me = forms.BooleanField(label='Remember me', required=False)
+    remember_me = forms.BooleanField(label='Remember me', required=False)
 
-    def build(self, *args, **kwargs):
-        self.fields['email'].widget = forms.EmailInput(
-            attrs={'class': 'form-control', 'required': True}
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.form_action = 'register_login:login'
+        self.helper.layout = Layout(
+            'email',
+            'password',
+            'remember_me',
+            Div(
+                Submit('submit', 'Login', css_class='btn btn-primary btn-block mx-4 my-2'),
+                HTML('<a href="{% url "register_login:sso_login" %}" class="btn btn-outline-dark mx-4 my-2">\
+                     Or login with SSO</a>'),
+                css_class='d-grid',
+            )    
         )
-        self.fields['password'].widget = forms.PasswordInput(
-            attrs={'class': 'form-control', 'required': True}
-        )
-        self.fields['remember_me'].widget = forms.CheckboxInput(
-            attrs={'class': 'form-check-input'}
-        )
-        # self.fields['remember_me'].label = 'Remember me'
 
 
 class RegisterForm(forms.ModelForm):
+    password_confirm = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
+
     class Meta:
         model = CustomUser
         fields = ['first_name', 'last_name', 'email', 'password']
-    
-    first_name = forms.CharField(label='First Name')
-    last_name = forms.CharField(label='Last Name')
-    email = forms.EmailField(label='Email')
-    password = forms.CharField(label='Password', widget=forms.PasswordInput)
-    
+
     def __init__(self, *args, **kwargs):
-        super(RegisterForm, self).__init__(*args, **kwargs)
-        self.build_fields()
-
-
-    def build_fields(self):
-        self.fields['email'].widget = forms.EmailInput(
-            attrs={'class': 'form-control', 'required': True}
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.form_action = 'register_login:register'
+        self.helper.layout = Layout(
+            Row(
+                Column('first_name', css_class='form-group col-md-6 mb-0'),
+                Column('last_name', css_class='form-group col-md-6 mb-0'),
+                css_class='form-row'
+            ),
+            'email',
+            'password',
+            'password_confirm',
+            Div(
+                Submit('submit', 'Create Account', css_class='btn btn-primary btn-block'),
+                css_class='d-grid',
+            )    
         )
-        self.fields['password'].widget = forms.PasswordInput(
-            attrs={'class': 'form-control', 'required': True}
-        )
-        self.fields['first_name'].widget = forms.TextInput(
-            attrs={'class': 'form-control', 'required': True}
-        )
-        self.fields['last_name'].widget = forms.TextInput(
-            attrs={'class': 'form-control', 'required': True}
-        )
 
-
-    def save(self, commit=True):
-        user = super(RegisterForm, self).save(commit=False)
-        user.set_password(self.cleaned_data['password'])
-        if commit:
-            user.save()
-        return user
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get('password')
+        password_confirm = cleaned_data.get('password_confirm')
+        if password != password_confirm:
+            raise forms.ValidationError("Passwords do not match.")

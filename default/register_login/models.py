@@ -30,7 +30,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
-    subgroup = models.ForeignKey('SubGroup', on_delete=models.CASCADE, null=True)
+    subgroup = models.ManyToManyField('SubGroup', related_name='users', blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 

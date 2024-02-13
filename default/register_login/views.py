@@ -1,7 +1,7 @@
 from allauth.socialaccount.models import SocialAccount
 
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
 from .models import CustomUser
@@ -30,14 +30,14 @@ def register(request):
             login(request, user)
 
             # Render the index page
-            return render(request, 'home')
+            return redirect('register_login:home')
     else:
         form = RegisterForm()
 
     return render(request, 'register_login.html', {'form': form, 'register': True})
 
 
-def login(request):
+def usr_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         
@@ -53,7 +53,7 @@ def login(request):
                 login(request, user)
                 
                 # Render the index page
-                return render(request, 'home')
+                return redirect('register_login:home')
             else:
                 # Invalid credentials, show an error message
                 error_message = "Invalid email or password."
@@ -78,10 +78,18 @@ def sso_login(request):
             login(request, user)
             
             # Render the index page
-            return render(request, 'home')
+            return redirect('register_login:home')
         except SocialAccount.DoesNotExist:
             # User not found, show an error message
             error_message = "User not found."
             return render(request, 'login.html', {'error_message': error_message})
     
     return render(request, 'login.html')
+
+
+def usr_logout(request):
+    # Log the user out
+    logout(request)
+    
+    # Redirect to the login page
+    return redirect('register_login:login')

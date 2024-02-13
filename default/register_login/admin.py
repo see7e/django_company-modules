@@ -8,7 +8,7 @@ from .forms import MultiSelectionGroupForm
 class CustomUserAdmin(admin.ModelAdmin):
     model = CustomUser
 
-    list_display = ('email', 'first_name', 'last_name', 'subgroup', 'is_active', 'is_staff',)
+    list_display = ('email', 'first_name', 'last_name', 'is_active', 'is_staff',)
     search_fields = ('email', 'first_name', 'last_name', 'subgroup__name',)
     list_filter = ('subgroup', 'is_active', 'is_staff',)
     ordering = ('first_name',)
