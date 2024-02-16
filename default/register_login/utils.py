@@ -57,3 +57,35 @@ def update_sidenav(func):
 
         return func(request, *args, **kwargs)
     return wrapper
+
+
+# TODO: improve saving location
+# TODO: replace default django messaging with toast
+# import os
+# from django.core.files.images import Image
+# from django.contrib import messages
+# from .models import CustomUser
+
+# def resize_and_save_image(photo, user):
+#     """
+#     Resize the image and save it to the media directory.
+#     """
+#     # Define the target size
+#     target_size = (300, 300)
+    
+#     # Resize the image
+#     try:
+#         with Image.open(photo) as image:
+#             image.thumbnail(target_size)
+#             # Define the filename
+#             filename = f"{user.id}.{photo.name.rsplit('.', 1)[1].lower()}"
+#             # Define the file path
+#             file_path = os.path.join('user_photos', filename)
+#             # Save the image
+#             with open(os.path.join('media', file_path), 'wb+') as destination:
+#                 image.save(destination, format='JPEG')
+#     except Exception as e:
+#         messages.error(request, f'Error resizing image: {str(e)}')
+#         return None
+    
+#     return file_path

@@ -1,15 +1,15 @@
 # TODO
 
 - [ ] improve database suport
-- [ ] split the databases depending on the usage (users, etc)
-- [ ] fix `DATABASES` information settings at `settings.py` file
+- [x] split the databases depending on the usage (users, etc)
+- [x] fix `DATABASES` information settings at `settings.py` file
 - [ ] improve user experience
 - [ ] improve runtime of virtural environment creation
 - [ ] run `python.exe -m pip install --upgrade pip`
 - [ ] add instalation of `django` and `docutils` after virtual environment creation and activation
-- [ ] create a `requirements.txt` file (`python -m pip freeze > requirements.txt`)
+- [x] create a `requirements.txt` file (`python -m pip freeze > requirements.txt`)
 - [ ] implement development and production environment logic
-- [ ] fix `ROOT_URLCONF` pointing to the wrong file (replace the name of the app for "settings")
+- [x] fix `ROOT_URLCONF` pointing to the wrong file (replace the name of the app for "settings")
 - [ ] fix the abomination for the db configuration at `setup.py` file
     ```python
     with open(settings_path, "w") as f:
@@ -41,7 +41,7 @@
             else:
                 f.write(line)
     ```
-- [ ] fix `<class 'register_login.admin.TeamAdmin'>`: (admin.E019) The value of `filter_horizontal[0]` refers to `permissions`, which is not a field of `register_login.Team`.
+- [x] fix `<class 'register_login.admin.TeamAdmin'>`: (admin.E019) The value of `filter_horizontal[0]` refers to `permissions`, which is not a field of `register_login.Team`.
 - [x] fix  `register_login.User.position`: (fields.E303) Reverse query name for `register_login.User.position` clashes with field name `register_login.Team.user`.
     >    Renamed `User` to `CustomUser` to avoid clash with the django default user model
 - [ ] run `migrate` and add django superuser creation option at the end of the setup
@@ -49,7 +49,10 @@
     >    divided the logic between the `auth.models.Group` and the `register_login.models.SubGroup` avoiding clashing when trying to override the default model  
 - [ ] implement `permission_required` decorator[#](https://docs.djangoproject.com/en/5.0/topics/auth/default//#the-permission-required-decorator "Permalink to this headline") to access the views
 - [ ] `register_login.html`: move styles to css file
-- [ ] `register_login.html`: reduce some of the nestings
-- [ ] `register_login.html`: replace form with forms.py code
+- [x] `register_login.html`: reduce some of the nestings
+- [x] `register_login.html`: replace form with forms.py code
 - [ ] `styles.css`: remove the unused classes in file
-- [x] implement the update of the menus in the `sidenav` by `@update_sidenav` decorator	
+- [x] implement the update of the menus in the `sidenav` by `@update_sidenav` decorator
+- [ ] impement pages pf user profile menu
+- [ ] create project board
+- [ ] 

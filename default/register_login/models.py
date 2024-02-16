@@ -30,7 +30,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
-    subgroup = models.ManyToManyField('SubGroup', related_name='users', blank=True)
+    subgroup = models.ManyToManyField('CustomSubGroup', related_name='users', blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
@@ -46,11 +46,20 @@ class CustomUser(AbstractUser):
         return self.is_staff
 
 
-class SubGroup(models.Model):
+class CustomGroup(Group):
+    # Add your additional fields here
+    manager = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='managed_groups')
+    
+    class Meta:
+        verbose_name = 'Custom Group'
+        verbose_name_plural = 'Custom Groups'
+
+
+class CustomSubGroup(models.Model):
     name = models.CharField(max_length=30)
     description = models.TextField()
     manager = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='managed_subgroups')
-    group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True)
+    group = models.ForeignKey(CustomGroup, on_delete=models.CASCADE, null=True)
     
     def __str__(self):
         return f'{self.name} - {self.manager} - {self.group}'
@@ -61,8 +70,8 @@ class Menu(models.Model):
     submenu = models.CharField(max_length=50, blank=True, null=True)
     icon = models.CharField(max_length=50, null=True)
     url = models.CharField(max_length=100, null=True)
-    group = models.ForeignKey(Group, on_delete=SET_NULL, blank=True, null=True)
-    subgroup = models.ForeignKey(SubGroup, on_delete=SET_NULL, blank=True, null=True)
+    group = models.ForeignKey(CustomGroup, on_delete=SET_NULL, blank=True, null=True)
+    subgroup = models.ForeignKey(CustomSubGroup, on_delete=SET_NULL, blank=True, null=True)
     
     def __str__(self):
         return f'{self.menu} - {self.submenu} - {self.url}'

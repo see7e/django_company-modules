@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
 
-from .models import CustomUser, SubGroup, Menu
+from .models import CustomUser, Menu, CustomGroup, CustomSubGroup
 from .forms import MultiSelectionGroupForm
 
 
@@ -19,16 +19,16 @@ admin.site.unregister(Group) # Unregister the original Group admin.
 class GroupAdmin(admin.ModelAdmin):
     form = MultiSelectionGroupForm
     filter_horizontal = ['permissions',] # Filter permissions horizontal as well.
-admin.site.register(Group, GroupAdmin)
+admin.site.register(CustomGroup, GroupAdmin)
 
 
 class SubGroupAdmin(admin.ModelAdmin):
-    model = SubGroup
+    model = CustomSubGroup
 
     list_display = ('name', 'description', 'manager', 'group',)
     search_fields = ('name', 'description', 'manager__first_name', 'manager__last_name', 'group__name',)
     ordering = ('name',)
-admin.site.register(SubGroup, SubGroupAdmin)
+admin.site.register(CustomSubGroup, SubGroupAdmin)
 
 
 class MenuAdmin(admin.ModelAdmin):
