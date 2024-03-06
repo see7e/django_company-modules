@@ -1,5 +1,6 @@
 import time
 
+
 def timed(func):
     def wrapper(*args, **kwargs):
         start = time.time()
@@ -8,6 +9,7 @@ def timed(func):
 
         print(f"Function {func.__name__} took {end - start} seconds to run")
         return value
+
     return wrapper
 
 
@@ -17,17 +19,17 @@ from django.shortcuts import render
 from django.db.models import Q
 from .models import Menu, CustomUser
 
+
 def update_sidenav(func):
     @wraps(func)
     def wrapper(request, *args, **kwargs):
-        print("Updating sidenav menus...")
-
+        # print("Updating sidenav menus...")
         # Query for the side menu
         menu_data = (
             Menu.objects
             # .filter(Q(group__in=request.user.groups.all()) | Q(subgroup=request.user.subgroup))
             .filter(group__in=request.user.groups.all())
-            .values('id', 'menu', 'submenu', 'url', 'icon', 'group', 'subgroup')
+            .values("id", "menu", "submenu", "url", "icon", "group", "subgroup")
             .distinct()
         )
 
@@ -39,23 +41,28 @@ def update_sidenav(func):
 
         # Group items by menu
         for item in data:
-            menu = item['menu']
-            grouped_data[menu].append({
-                'id': item['id'],
-                'submenu': item['submenu'],
-                'icon': item['icon'],
-                'url': item['url'],
-                'group': item['group'],
-                'subgroup': item['subgroup']
-            })
+            menu = item["menu"]
+            grouped_data[menu].append(
+                {
+                    "id": item["id"],
+                    "submenu": item["submenu"],
+                    "icon": item["icon"],
+                    "url": item["url"],
+                    "group": item["group"],
+                    "subgroup": item["subgroup"],
+                }
+            )
 
         # Convert the dictionary back to a list of dictionaries
-        result_list = [{'menu': menu, 'items': items} for menu, items in grouped_data.items()]
+        result_list = [
+            {"menu": menu, "items": items} for menu, items in grouped_data.items()
+        ]
 
         # Store the data in the session
-        request.session['menu_data'] = result_list
+        request.session["menu_data"] = result_list
 
         return func(request, *args, **kwargs)
+
     return wrapper
 
 
@@ -72,7 +79,7 @@ def update_sidenav(func):
 #     """
 #     # Define the target size
 #     target_size = (300, 300)
-    
+
 #     # Resize the image
 #     try:
 #         with Image.open(photo) as image:
@@ -87,5 +94,5 @@ def update_sidenav(func):
 #     except Exception as e:
 #         messages.error(request, f'Error resizing image: {str(e)}')
 #         return None
-    
+
 #     return file_path
