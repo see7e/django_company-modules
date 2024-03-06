@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %}Dashboard{% endblock title %}´
+{% block title %}Dashboard{% endblock title %}
 
 {% block content %}
 <div class="container-fluid px-4">
@@ -565,5 +565,6 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-<script src={% static "js/scripts.js" %}></script>
+<script src={% static "core/js/chart.js" %}></script>
+<script src={% static "core/js/data-table.js" %}></script>
 {% endblock content %}
