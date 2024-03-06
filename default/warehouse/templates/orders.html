@@ -1,0 +1,65 @@
+{% extends 'base_layout.html' %}
+
+{% load static %}
+
+{% block title %}Invetory List{% endblock title %}
+
+{% block content %}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+<!-- Placeholder for the modal -->
+<div id="modal" class="modal fade">
+    <div id="dialog" class="modal-dialog" hx-target="this"></div>
+</div>
+
+
+<h1>Orders</h1>
+
+<button class="btn btn-primary btn-sm mb-4"
+    hx-get="{% url 'warehouse:new_order' %}"
+    hx-target="#dialog">Add Order
+</button>
+
+<table id="datatablesSimple">
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Description</td>
+            <td>Responsible</td>
+            <td>Type</td>
+            <td>Status</td>
+            <td>Start Date</td>
+            <td>Due date</td>
+        </tr>
+    </thead>
+    <tbody>
+    {% for item in item_list %}
+        <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ item.description }}</td>
+            <td>{{ item.user }}</td>
+            <td>{{ item.type }}</td>
+            <td>{{ item.status }}</td>
+            <td>{{ item.start_date }}</td>
+            <td>{{ item.due_date }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td>Name</td>
+            <td>Description</td>
+            <td>Responsible</td>
+            <td>Type</td>
+            <td>Status</td>
+            <td>Start Date</td>
+            <td>Due date</td>
+        </tr>
+    </tfoot>
+</table>
+
+<script src={% static "core/js/data-table.js" %}></script>
+{% endblock %}

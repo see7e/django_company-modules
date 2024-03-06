@@ -1,0 +1,47 @@
+{% extends 'base_layout.html' %}
+
+{% load static %}
+
+{% block title %}Invetory List{% endblock title %}
+
+{% block content %}
+<h1>Inventory</h1>
+
+<button class="btn btn-primary btn-sm"
+    hx-get="{% url 'worktime:team_edit' pk=wt_team.pk %}"
+    hx-target="#dialog">Add Order
+</button>
+
+<hr>
+
+<table id="datatablesSimple">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>License Plate</th>
+            <th>Task</th>
+            <th>Destination</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for item in item_list %}
+        <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.license_plate }}</td>
+            <td>{{ item.task }}</td>
+            <td>{{ item.destination_code }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>ID</th>
+            <th>License Plate</th>
+            <th>Task</th>
+            <th>Destination</th>
+        </tr>
+    </tfoot>
+</table>
+
+<script src={% static "core/js/data-table.js" %}></script>
+{% endblock %}
