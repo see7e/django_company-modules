@@ -17,106 +17,103 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Get the environment variable
-ENV_ROLE = os.getenv('ENV_ROLE', 'development')
+ENV_ROLE = os.getenv("ENV_ROLE", "development")
 
 # Load different settings based on the environment
-if ENV_ROLE == 'production':
+if ENV_ROLE == "production":
     # from .production_settings import *
     DEBUG = False
-elif ENV_ROLE == 'development':
+elif ENV_ROLE == "development":
     # from .development_settings import *
     DEBUG = True
 else:
-    raise Exception('The ENV_ROLE environment variable is required to be set')
+    raise Exception("The ENV_ROLE environment variable is required to be set")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-b1l4cgbj3e9_&4gm4+p3b_87rscg5qu0_fuo)hxro&i0n=dn()'
+SECRET_KEY = "django-insecure-b1l4cgbj3e9_&4gm4+p3b_87rscg5qu0_fuo)hxro&i0n=dn()"
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
 INTERNAL_IPS = [
-    '127.0.0.1',
+    "127.0.0.1",
 ]
 
 # Application definition
 
-AUTH_USER_MODEL = 'register_login.CustomUser'
-AUTH_GROUP_MODEL = 'register_login.CustomGroup'
+AUTH_USER_MODEL = "register_login.CustomUser"
+AUTH_GROUP_MODEL = "register_login.CustomGroup"
 
 INSTALLED_APPS = [
     # django modules
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django.contrib.admindocs',
-    
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django.contrib.admindocs",
     # third party modules
-    'debug_toolbar',
-    'crispy_forms',
-    'crispy_bootstrap5',
-    'widget_tweaks',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-
+    "debug_toolbar",
+    "crispy_forms",
+    "crispy_bootstrap5",
+    "widget_tweaks",
+    "django_select2",
     # app modules
-    'register_login',
+    "core",
+    "register_login",
+    "warehouse",
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'django.middleware.locale.LocaleMiddleware', # built-in translation middleware
-    'allauth.account.middleware.AccountMiddleware', # allauth middleware
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "django.middleware.locale.LocaleMiddleware",  # built-in translation middleware
 ]
 
-ROOT_URLCONF = 'settings.urls'
+ROOT_URLCONF = "settings.urls"
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            BASE_DIR / 'static/templates'
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [
+            BASE_DIR
+            / "static/templates"
             # BASE_DIR / 'staticfiles/templates'
         ],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'settings.wsgi.application'
+WSGI_APPLICATION = "settings.wsgi.application"
 
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
@@ -155,16 +152,16 @@ DATABASES = {
 # ]
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
@@ -172,9 +169,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 
@@ -182,34 +179,34 @@ USE_TZ = True
 
 # Specify the available languages for translation
 LANGUAGES = [
-    ('en', 'English'),
-    ('pt', 'Portuguese'),
-    ('fr', 'French'),
-    ('es', 'Spanish'),
+    ("en", "English"),
+    ("pt", "Portuguese"),
+    ("fr", "French"),
+    ("es", "Spanish"),
     # Add more languages as needed
 ]
 
 # Set the default language
-LANGUAGE_DEFAULT = 'en-us'
-DEFAULT_CHARSET = 'utf-8'
+LANGUAGE_DEFAULT = "en-us"
+DEFAULT_CHARSET = "utf-8"
 
 # Set the directory where translation files will be stored
 LOCALE_PATHS = [
-    os.path.join(BASE_DIR, 'locale'),
+    os.path.join(BASE_DIR, "locale"),
 ]
 
 # Set the format for date and time
-DATE_FORMAT = 'Y-m-d'
-TIME_FORMAT = 'H:i:s'
-DATETIME_FORMAT = 'Y-m-d H:i:s'
+DATE_FORMAT = "Y-m-d"
+TIME_FORMAT = "H:i:s"
+DATETIME_FORMAT = "Y-m-d H:i:s"
 
 
 # Static files (CSS, JavaScript, Images)
 # All the templates will point to the files created by the ``collectstatic`` command.
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
@@ -217,7 +214,7 @@ STATICFILES_DIRS = [
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -225,32 +222,49 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # See http://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
         },
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler',
-            'include_html': True,
+        "mail_admins": {
+            "level": "ERROR",
+            "class": "django.utils.log.AdminEmailHandler",
+            "include_html": True,
         },
     },
-    'loggers': {
-        'django': {
-            'handlers': ['console', 'mail_admins'],
-            'level': 'INFO',
+    "loggers": {
+        "django": {
+            "handlers": ["console", "mail_admins"],
+            "level": "INFO",
         },
     },
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'your-email-host'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "your-email-host"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'your-email@example.com'
-EMAIL_HOST_PASSWORD = 'your-email-password'
+EMAIL_HOST_USER = "your-email@example.com"
+EMAIL_HOST_PASSWORD = "your-email-password"
 
 
-# Other
+# Select2
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "redis://127.0.0.1:6379/",
+    },
+    # Other cache configurations...
+    "select2": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/2",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    },
+}
+
+# Tell select2 which cache configuration to use:
+SELECT2_CACHE_BACKEND = "select2"

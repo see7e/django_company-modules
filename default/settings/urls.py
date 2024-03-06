@@ -20,9 +20,12 @@ from django.urls.conf import include
 from django.conf import settings
 
 urlpatterns = [
-    path('admin/doc/', include('django.contrib.admindocs.urls')),
-    path('admin/', admin.site.urls),
-    path('', include('register_login.urls', namespace='register_login')),
+    path("admin/doc/", include("django.contrib.admindocs.urls")),
+    path("admin/", admin.site.urls),
+    path("select2/", include("django_select2.urls")),
+    path("", include("core.urls", namespace="core")),
+    path("", include("register_login.urls", namespace="register_login")),
+    path("", include("warehouse.urls", namespace="warehouse")),
 ]
 
 # Add debug toolbar to urlpatterns
@@ -30,7 +33,7 @@ if settings.DEBUG:
     import debug_toolbar
 
     # Show debug toolbar
-    urlpatterns += [path('__debug__/', include(debug_toolbar.urls))]
+    urlpatterns += [path("__debug__/", include(debug_toolbar.urls))]
 
     # # Add media files to urlpatterns
     # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
