@@ -2,14 +2,16 @@ from django.db import models
 from register_login.models import CustomUser
 
 TASK_CHOICES = [
-    ('pending', 'Pending'), ('in_progress', 'In Progress'), ('completed', 'Completed')
+    ("pending", "Pending"),
+    ("in_progress", "In Progress"),
+    ("completed", "Completed"),
 ]
 TASK_TYPES = [
     # ('receiving', 'Receiving'), # Inbound
     # ('putaway', 'Putaway'), # Inbound
-    ('picking', 'Picking'), # Outbound
-    ('packing', 'Packing'), # Outbound
-    ('shipping', 'Shipping') # Outbound
+    ("picking", "Picking"),  # Outbound
+    ("packing", "Packing"),  # Outbound
+    ("shipping", "Shipping"),  # Outbound
 ]
 
 # Following the EDA
@@ -31,9 +33,13 @@ class Task(models.Model):
     start_date = models.DateTimeField()
     due_date = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(CustomUser, related_name='created_by', on_delete=models.CASCADE)
+    created_by = models.ForeignKey(
+        CustomUser, related_name="created_by", on_delete=models.CASCADE
+    )
     updated_at = models.DateTimeField(auto_now=True)
-    updated_by = models.ForeignKey(CustomUser, related_name='updated_by', on_delete=models.CASCADE)
+    updated_by = models.ForeignKey(
+        CustomUser, related_name="updated_by", on_delete=models.CASCADE
+    )
 
     # def save(self, *args, **kwargs):
     #     created = not self.pk

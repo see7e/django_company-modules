@@ -3,8 +3,8 @@ from django.conf import settings
 from . import views
 
 
-app_name = 'core'
+app_name = "core"
 
 urlpatterns = [
-    path('create-objects/', views.dev_fill_tables, name='create_objects'),
+    path("create-objects/", views.dev_fill_tables, name="create_objects"),
 ]

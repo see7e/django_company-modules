@@ -16,7 +16,7 @@
                 {% comment %} <!-- Iterate through menu items with submenus --> {% endcomment %}
                 {% comment %} <div class="sb-sidenav-menu-heading">Dropdowns</div> {% endcomment %}
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                    data-bs-target="#{{ menu_item.menu|lower|slugify }}" aria-expanded="false" 
+                    data-bs-target="#{{ menu_item.menu|lower|slugify }}" aria-expanded="false"
                     aria-controls="{{ menu_item.menu|lower|slugify }}"
                 >
                     <div class="sb-nav-link-icon">
@@ -27,7 +27,7 @@
                         <i class="fas fa-angle-down"></i>
                     </div>
                 </a>
-                <div class="collapse" id="{{ menu_item.menu|lower|slugify }}" aria-labelledby="headingOne" 
+                <div class="collapse" id="{{ menu_item.menu|lower|slugify }}" aria-labelledby="headingOne"
                     data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
                         {% for item in menu_item.items %}
@@ -37,7 +37,7 @@
                 </div>
             {% endif %}
             {% endfor %}
-            
+
             <div class="sb-sidenav-menu-heading">Not automatic menus</div>
 
             {% comment %}

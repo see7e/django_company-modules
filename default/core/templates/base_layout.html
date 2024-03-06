@@ -22,7 +22,7 @@
     <body class="sb-nav-fixed">
         {% if not request.user.is_authenticated %}
         {% block register_login %}{% endblock %}
-        
+
         {% else %}
         <!-- NAV --> {% include "nav.html" %}
         <div id="layoutSidenav">
