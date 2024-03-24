@@ -27,7 +27,6 @@ class TaskAdmin(admin.ModelAdmin):
     list_display = (
         "name",
         "description",
-        "user",
         "type",
         "status",
         "start_date",
@@ -37,7 +36,6 @@ class TaskAdmin(admin.ModelAdmin):
     list_filter = (
         "name",
         "description",
-        "user",
         "type",
         "status",
         "start_date",

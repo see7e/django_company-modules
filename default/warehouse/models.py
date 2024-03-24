@@ -57,6 +57,9 @@ class Item(models.Model):
     #         # Emit event when a new item is created
     #         Event.objects.create(name='ItemCreated', description=f'Item {self.code} created')
 
+    def __str__(self) -> str:
+        return f"{self.code} - {self.name} - {self.quantity}"
+
 
 ## 4. Outbound
 class Vehicle(models.Model):

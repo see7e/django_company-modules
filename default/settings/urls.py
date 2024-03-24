@@ -22,7 +22,7 @@ from django.conf import settings
 urlpatterns = [
     path("admin/doc/", include("django.contrib.admindocs.urls")),
     path("admin/", admin.site.urls),
-    path("select2/", include("django_select2.urls")),
+    # path("select2/", include("django_select2.urls")),
     path("", include("core.urls", namespace="core")),
     path("", include("register_login.urls", namespace="register_login")),
     path("", include("warehouse.urls", namespace="warehouse")),

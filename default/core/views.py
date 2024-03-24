@@ -1,11 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .utils import create_warehouse_tables, create_menu_data
-
-
-def inventory(request):
-    return render(request, "inventory.html")
-
+from .db import create_warehouse_tables, create_menu_data
 
 ####################################################################################################
 import subprocess
@@ -61,17 +56,15 @@ def dev_fill_tables(request):
 
 
 ####################################################################################################
-def dev_login(superuser: dict):
-    subprocess.run(
-        [
-            "../manage.py",
-            "login",
-            "--username",
-            superuser.email,
-            "--password",
-            superuser.password,
-        ]
-    )
-
-
+# def dev_login(superuser: dict):
+#     subprocess.run(
+#         [
+#             "../manage.py",
+#             "login",
+#             "--username",
+#             superuser.email,
+#             "--password",
+#             superuser.password,
+#         ]
+#     )
 ####################################################################################################

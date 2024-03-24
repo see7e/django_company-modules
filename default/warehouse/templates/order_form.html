@@ -21,3 +21,32 @@
 {% endwith %}
 
 <script type="text/javascript" src="{% static 'warehouse/js/modal_dialog.js' %}"></script>
+<script>
+    function initializeSelect2() {
+        $("#id_products").select2({
+            placeholder: "Select the Products",
+            allowClear: true,
+            dropdownParent: $('#modal'),
+            dropdownCssClass: 'select2-dropdown--modal',
+            containerCssClass: 'select2-container--modal'
+        });
+    }
+
+    // Initialize Select2 when the page loads
+    initializeSelect2();
+
+    // Update Select2 when the modal is shown
+    $('#modal').on('shown.bs.modal', function () {
+        // Destroy Select2 before reinitializing it
+        $("#id_products").select2('destroy');
+        // Reinitialize Select2 inside the modal
+        initializeSelect2();
+    });
+</script>
+{% comment %} <script> // Initialize the Google Places Autocomplete
+    var input = document.getElementById('{{ widget.attrs.id }}');
+    var options = {
+        types: ['address']
+    };
+    var autocomplete = new google.maps.places.Autocomplete(input, options);
+</script> {% endcomment %}

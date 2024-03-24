@@ -2,16 +2,8 @@
 
 > next steps to be done
 
-- [ ] new order forms
 - [ ] attach the event middleware to the functions
 - [ ] create and set workflow to read from `core.models.Event`
-- [ ] setup `redis-server` (`django-select2` depends on it)
-
-
-
-
-
-
 
 ---
 
@@ -99,3 +91,5 @@
 - [x] fix  `register_login.User.position`: (fields.E303) Reverse query name for `register_login.User.position` clashes with field name `register_login.Team.user`.
 - [x] **auth.Group.permissions**: (fields.E304) Reverse accessor `Permission.group_set` for `auth.Group.permissions` clashes with reverse accessor for `register_login.Group.permissions`. **register_login.Group.permissions**: (fields.E304) Reverse accessor `Permission.group_set` for `register_login.Group.permissions` clashes with reverse accessor for `auth.Group.permissions`.
     >    Renamed `User` to `CustomUser` to avoid clash with the django default user model
+- [x] new order forms and page list display
+- [x] setup `redis-server` (`django-select2` depends on it)

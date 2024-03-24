@@ -27,19 +27,18 @@ class Event(models.Model):
 class Task(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(max_length=150)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     type = models.CharField(max_length=50, choices=TASK_TYPES)
-    status = models.CharField(max_length=20, choices=TASK_CHOICES)
-    start_date = models.DateTimeField()
-    due_date = models.DateTimeField()
-    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20, choices=TASK_CHOICES, default="pending")
     created_by = models.ForeignKey(
         CustomUser, related_name="created_by", on_delete=models.CASCADE
     )
-    updated_at = models.DateTimeField(auto_now=True)
     updated_by = models.ForeignKey(
         CustomUser, related_name="updated_by", on_delete=models.CASCADE
     )
+    start_date = models.DateTimeField()
+    due_date = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     # def save(self, *args, **kwargs):
     #     created = not self.pk
@@ -58,4 +57,4 @@ class Task(models.Model):
     #     Event.objects.create(name='TaskCompleted', description=f'Task {self.id} completed')
 
     def __str__(self):
-        return f"{self.name} - {self.description} - {self.user} - {self.type} - {self.status} - {self.start_date} - {self.due_date}"
+        return f"{self.name} - {self.description} - {self.type} - {self.status} - {self.start_date} - {self.due_date}"
