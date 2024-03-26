@@ -3,16 +3,6 @@ from core.models import Event, Task
 from .models import Event, OutboundRequest, Item, Rack, Shed
 
 
-class EventAdmin(admin.ModelAdmin):
-    list_display = ("name", "description", "timestamp")
-    search_fields = ("name", "description")
-    list_filter = ("name", "description", "timestamp")
-    ordering = ("timestamp",)
-
-
-admin.site.register(Event, EventAdmin)
-
-
 class OutboundRequestAdmin(admin.ModelAdmin):
     list_display = ("license_plate", "task", "destination_code")
     search_fields = ("license_plate", "task", "destination_code")

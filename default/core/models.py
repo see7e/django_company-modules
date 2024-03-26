@@ -16,8 +16,8 @@ TASK_TYPES = [
 
 # Following the EDA
 class Event(models.Model):
-    name = models.CharField(max_length=100)
     description = models.TextField()
+    application = models.CharField(max_length=100)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

@@ -93,3 +93,4 @@
     >    Renamed `User` to `CustomUser` to avoid clash with the django default user model
 - [x] new order forms and page list display
 - [x] setup `redis-server` (`django-select2` depends on it)
+- [x] fix Inventory list page
