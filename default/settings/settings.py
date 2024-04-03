@@ -35,7 +35,11 @@ else:
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-b1l4cgbj3e9_&4gm4+p3b_87rscg5qu0_fuo)hxro&i0n=dn()"
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "vercel.app",
+]
 
 INTERNAL_IPS = [
     "127.0.0.1",
