@@ -36,9 +36,9 @@ else:
 SECRET_KEY = "django-insecure-b1l4cgbj3e9_&4gm4+p3b_87rscg5qu0_fuo)hxro&i0n=dn()"
 
 ALLOWED_HOSTS = [
+    ".vercel.app",
     "localhost",
     "127.0.0.1",
-    "vercel.app",
 ]
 
 INTERNAL_IPS = [

@@ -1,3 +1,7 @@
+> [!WARNING]
+> **The current used version of Python in the Vercel platform is 3.9, this project uses Django 5.x, which is not compatible. Sadly, the page will remain offline until there.**
+___
+
 > # Django Project Builder
 >
 > This maybe in the future I'll split in a different project, but for now as it's still small I'll keep it here.
