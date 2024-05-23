@@ -53,6 +53,28 @@ To incorporate the Default Project modules into your enterprise application, sim
 4. **Testing and Deployment:** Thoroughly test the integrated modules to ensure proper functionality and compatibility. Once testing is complete, deploy your enterprise application with confidence, knowing that it's built on a solid foundation of versatile and adaptable modules.
 
 
+### Deploying on Development
+
+*Menus and Submenus*: the `core` application has some base templates, some of them are components for the areas on the view. The `sidenav` has the possibility to create static of dynamic fields (based on user, groups and subgroups permissions). As threy're orm models they needed to be created after the django migration process. 
+
+*Dummy objects*: the `core` application has an endpoint named `create_objects` which is responsible for creating the elements required by some queryes. The only purpose is to exemplify the app usage.
+
+Run (with the python env), use the credentials for the admin superuser:
+```bash
+python manage.py makemigrations
+python manage.py createsuperuser
+python manage.py makemigrations warehoure
+python manage.py migrate
+```
+
+Go to:
+```
+localhost/create-objects/
+```
+
+> [!INFO]
+> There's a small issue when running the `create-objects` endpoint multiple times, which is that there's some `IntegrityError at /create-objects/: UNIQUE constraint failed: auth_group.name` but I'll fix that later.
+
 ### Deploying on Production
 
 I need to improve the logic for the container to be able to run on production, in the moment it`s only running on development mode.

@@ -1,20 +1,23 @@
 from register_login.models import CustomUser, Menu, CustomGroup
 from warehouse.models import Shed, Rack, Item
 
-
-def create_objects_from_dict(object, data: dict):
-    created_objects = []
+def create_objects_from_dict(object, data: dict) -> dict:
+    created_objects = {}
     for key, values in data.items():
         obj = object.objects.create(**values)
-        created_objects.append(obj)
+        created_objects[key] = obj
     return created_objects
 
 
-def fetch_exiting_objects(object, filter):
+# def fetch_existing_objects(object, filter):
+def fetch_existing_objects(object, **kwargs):
     try:
-        object.objects.get(filter)
+        # object.objects.get(filter)
+        # return object.objects.get(filter)
+        return object.objects.get(**kwargs)
     except object.DoesNotExist:
-        print(f"Object {object} with filter {filter} does not exist")
+        # print(f"Object {object} with filter {filter} does not exist")
+        print(f"Object {object.__name__} with filter {kwargs} does not exist")
         return None
 
 
@@ -32,32 +35,32 @@ def create_warehouse_tables() -> dict:
         "rack1": {
             "code": "RACK001",
             "capacity": 100,
-            "in_shed": fetch_exiting_objects(Shed, "shed='SHED001'"),
+            "in_shed": fetch_existing_objects(Shed, shed='SHED001'),
         },
         "rack2": {
             "code": "RACK002",
             "capacity": 200,
-            "in_shed": fetch_exiting_objects(Shed, "shed='SHED001'"),
+            "in_shed": fetch_existing_objects(Shed, shed='SHED001'),
         },
         "rack3": {
             "code": "RACK003",
             "capacity": 300,
-            "in_shed": fetch_exiting_objects(Shed, "shed='SHED002'"),
+            "in_shed": fetch_existing_objects(Shed, shed='SHED002'),
         },
         "rack4": {
             "code": "RACK004",
             "capacity": 400,
-            "in_shed": fetch_exiting_objects(Shed, "shed='SHED002'"),
+            "in_shed": fetch_existing_objects(Shed, shed='SHED002'),
         },
         "rack5": {
             "code": "RACK005",
             "capacity": 500,
-            "in_shed": fetch_exiting_objects(Shed, "shed='SHED003'"),
+            "in_shed": fetch_existing_objects(Shed, shed='SHED003'),
         },
         "rack6": {
             "code": "RACK006",
             "capacity": 600,
-            "in_shed": fetch_exiting_objects(Shed, "shed='SHED003'"),
+            "in_shed": fetch_existing_objects(Shed, shed='SHED003'),
         },
     }
     created_racks = create_objects_from_dict(Rack, RACK_DATA)
@@ -70,104 +73,108 @@ def create_warehouse_tables() -> dict:
             "name": "Product A",
             "description": "Sample description for Product A",
             "quantity": 100,
-            "in_rack": fetch_exiting_objects(Rack, "code='RACK001'"),
+            "in_rack": fetch_existing_objects(Rack, code='RACK001'),
         },
         "item2": {
             "code": "ITEM002",
             "name": "Product B",
             "description": "Sample description for Product B",
             "quantity": 200,
-            "in_rack": fetch_exiting_objects(Rack, "code='RACK002'"),
+            "in_rack": fetch_existing_objects(Rack, code='RACK002'),
         },
         "item3": {
             "code": "ITEM003",
             "name": "Product C",
             "description": "Sample description for Product C",
             "quantity": 300,
-            "in_rack": fetch_exiting_objects(Rack, "code='RACK003'"),
+            "in_rack": fetch_existing_objects(Rack, code='RACK003'),
         },
         "item4": {
             "code": "ITEM004",
             "name": "Product D",
             "description": "Sample description for Product D",
             "quantity": 400,
-            "in_rack": fetch_exiting_objects(Rack, "code='RACK004'"),
+            "in_rack": fetch_existing_objects(Rack, code='RACK004'),
         },
         "item5": {
             "code": "ITEM005",
             "name": "Product E",
             "description": "Sample description for Product E",
             "quantity": 500,
-            "in_rack": fetch_exiting_objects(Rack, "code='RACK005'"),
+            "in_rack": fetch_existing_objects(Rack, code='RACK005'),
         },
         "item6": {
             "code": "ITEM006",
             "name": "Product F",
             "description": "Sample description for Product F",
             "quantity": 600,
-            "in_rack": fetch_exiting_objects(Rack, "code='RACK006'"),
+            "in_rack": fetch_existing_objects(Rack, code='RACK006'),
         },
         "item7": {
             "code": "ITEM007",
             "name": "Product G",
             "description": "Sample description for Product G",
             "quantity": 700,
-            "in_rack": fetch_exiting_objects(Rack, "code='RACK001'"),
+            "in_rack": fetch_existing_objects(Rack, code='RACK001'),
         },
         "item8": {
             "code": "ITEM008",
             "name": "Product H",
             "description": "Sample description for Product H",
             "quantity": 800,
-            "in_rack": fetch_exiting_objects(Rack, "code='RACK002'"),
+            "in_rack": fetch_existing_objects(Rack, code='RACK002'),
         },
         "item9": {
             "code": "ITEM009",
             "name": "Product I",
             "description": "Sample description for Product I",
             "quantity": 900,
-            "in_rack": fetch_exiting_objects(Rack, "code='RACK003'"),
+            "in_rack": fetch_existing_objects(Rack, code='RACK003'),
         },
         "item10": {
             "code": "ITEM010",
             "name": "Product J",
             "description": "Sample description for Product J",
             "quantity": 1000,
-            "in_rack": fetch_exiting_objects(Rack, "code='RACK004'"),
+            "in_rack": fetch_existing_objects(Rack, code='RACK004'),
         },
     }
     created_items = create_objects_from_dict(Item, ITEM_DATA)
     if len(created_items) < 0:
         raise Exception("Failed to create Items")
 
-    return {created_sheds, created_racks, created_items}
+    return {
+        "created_sheds": created_sheds,
+        "created_racks": created_racks,
+        "created_items": created_items,
+    }
 
 
 def create_menu_data() -> dict:
     CUSTOMGROUP_DATA = {
         "default": {
             "name": "Default",
-            "manager": fetch_exiting_objects(CustomUser, "first_name='admin'"),
+            "manager": fetch_existing_objects(CustomUser, first_name='admin'),
         },
         "hr": {
             "name": "HR",
-            "manager": fetch_exiting_objects(CustomUser, "first_name='admin'"),
+            "manager": fetch_existing_objects(CustomUser, first_name='admin'),
         },
         "warehouse": {
             "name": "Warehouse",
-            "manager": fetch_exiting_objects(CustomUser, "first_name='admin'"),
+            "manager": fetch_existing_objects(CustomUser, first_name='admin'),
         },
         "reports": {
             "name": "Reports",
-            "manager": fetch_exiting_objects(CustomUser, "first_name='admin'"),
+            "manager": fetch_existing_objects(CustomUser, first_name='admin'),
         },
         "sales": {
             "name": "Sales",
-            "manager": fetch_exiting_objects(CustomUser, "first_name='admin'"),
+            "manager": fetch_existing_objects(CustomUser, first_name='admin'),
         },
         "purchases": {
             "name": "Purchases",
-            "manager": fetch_exiting_objects(CustomUser, "first_name='admin'"),
+            "manager": fetch_existing_objects(CustomUser, first_name='admin'),
         },
     }
     created_customgroups = create_objects_from_dict(CustomGroup, CUSTOMGROUP_DATA)
@@ -180,7 +187,7 @@ def create_menu_data() -> dict:
             "submenu": "",
             "icon": "fas fa-tachometer-alt",
             "url": "register_login:home",
-            "group": fetch_exiting_objects(CustomGroup, "name='Default'"),
+            "group": fetch_existing_objects(CustomGroup, name='Default'),
             "subgroup": None,
         },
         "payroll": {
@@ -188,7 +195,7 @@ def create_menu_data() -> dict:
             "submenu": "Payroll",
             "icon": "fas fa-money-check-alt",
             "url": "register_login:payroll",
-            "group": fetch_exiting_objects(CustomGroup, "name='HR'"),
+            "group": fetch_existing_objects(CustomGroup, name='HR'),
             "subgroup": None,
         },
         "timekeeping": {
@@ -196,7 +203,7 @@ def create_menu_data() -> dict:
             "submenu": "Timekeeping",
             "icon": "fas fa-clock",
             "url": "register_login:timekeeping",
-            "group": fetch_exiting_objects(CustomGroup, "name='HR'"),
+            "group": fetch_existing_objects(CustomGroup, name='HR'),
             "subgroup": None,
         },
         "employees": {
@@ -204,7 +211,7 @@ def create_menu_data() -> dict:
             "submenu": "Employees",
             "icon": "fas fa-users",
             "url": "register_login:employees",
-            "group": fetch_exiting_objects(CustomGroup, "name='HR'"),
+            "group": fetch_existing_objects(CustomGroup, name='HR'),
             "subgroup": None,
         },
         "inventory": {
@@ -212,7 +219,7 @@ def create_menu_data() -> dict:
             "submenu": "Inventory",
             "icon": "fas fa-boxes",
             "url": "warehouse:inventory",
-            "group": fetch_exiting_objects(CustomGroup, "name='Warehouse'"),
+            "group": fetch_existing_objects(CustomGroup, name='Warehouse'),
             "subgroup": None,
         },
         "orders": {
@@ -220,7 +227,7 @@ def create_menu_data() -> dict:
             "submenu": "Orders",
             "icon": "fas fa-shopping-cart",
             "url": "warehouse:orders",
-            "group": fetch_exiting_objects(CustomGroup, "name='Warehouse'"),
+            "group": fetch_existing_objects(CustomGroup, name='Warehouse'),
             "subgroup": None,
         },
         "suppliers": {
@@ -228,7 +235,7 @@ def create_menu_data() -> dict:
             "submenu": "Suppliers",
             "icon": "fas fa-truck",
             "url": "warehouse:suppliers",
-            "group": fetch_exiting_objects(CustomGroup, "name='Warehouse'"),
+            "group": fetch_existing_objects(CustomGroup, name='Warehouse'),
             "subgroup": None,
         },
         "sales": {
@@ -236,7 +243,7 @@ def create_menu_data() -> dict:
             "submenu": "Sales",
             "icon": "fas fa-chart-line",
             "url": "reports:sales",
-            "group": fetch_exiting_objects(CustomGroup, "name='Reports'"),
+            "group": fetch_existing_objects(CustomGroup, name='Reports'),
             "subgroup": None,
         },
         "purchases": {
@@ -244,7 +251,7 @@ def create_menu_data() -> dict:
             "submenu": "Purchases",
             "icon": "fas fa-chart-line",
             "url": "reports:purchases",
-            "group": fetch_exiting_objects(CustomGroup, "name='Reports'"),
+            "group": fetch_existing_objects(CustomGroup, name='Reports'),
             "subgroup": None,
         },
         "customers": {
@@ -252,7 +259,7 @@ def create_menu_data() -> dict:
             "submenu": "Customers",
             "icon": "fas fa-users",
             "url": "reports:customers",
-            "group": fetch_exiting_objects(CustomGroup, "name='Sales'"),
+            "group": fetch_existing_objects(CustomGroup, name='Sales'),
             "subgroup": None,
         },
         "vendors": {
@@ -260,7 +267,7 @@ def create_menu_data() -> dict:
             "submenu": "Vendors",
             "icon": "fas fa-users",
             "url": "reports:vendors",
-            "group": fetch_exiting_objects(CustomGroup, "name='Purchases'"),
+            "group": fetch_existing_objects(CustomGroup, name='Purchases'),
             "subgroup": None,
         },
     }
@@ -274,4 +281,5 @@ def create_menu_data() -> dict:
     # if len(created_users) < 0:
     #     raise Exception('Failed to create Users')
 
-    return {created_customgroups, created_menus}
+    # return {created_customgroups, created_menus}
+    return {"created_customgroups": created_customgroups, "created_menus": created_menus}
