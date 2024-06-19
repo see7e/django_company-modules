@@ -1,28 +1,9 @@
 > [!WARNING]
 > **The current used version of Python in the Vercel platform is 3.9, this project uses Django 5.x, which is not compatible. Sadly, the page will remain offline until there.**
-___
-
-> # Django Project Builder
->
-> This maybe in the future I'll split in a different project, but for now as it's still small I'll keep it here.
->
-> Need installed `tqdm`, run:
->
-> ```bash
-> pip install tqdm
-> python setup.py
-> ```
->
-> It will ask for the project name and some configurations:
->
-> - Enter the name of the Django project:
-> - Enter the type of database to use (postgresql/mysql/sqlite):
-> - Enter the Docker image to use (python/ubuntu):
-
 
 > [!NOTE]
 > I'll rebuild some of the applications, because I want to implement some concepts that I've learned in the last few months and others that I want to understand better (this includes the use of an Event-Driven Architecture)
-
+___
 
 # Default Project - Modular Components
 

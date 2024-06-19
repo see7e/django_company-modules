@@ -1,8 +1,17 @@
 from register_login.models import CustomUser, Menu, CustomGroup
 from warehouse.models import Shed, Rack, Item
+from .constants import (
+    HR_NAME,
+    ADMIN_NAME,
+    WAREHOUSE_NAME,
+    REPORTS_NAME,
+    SALES_NAME,
+    PURCHASES_NAME,
+    USERS_ICON_CLASS,
+)
 
 
-def create_objects_from_dict(object, data: dict):
+def create_objects_from_dict(object, data: dict) -> list:
     created_objects = []
     for key, values in data.items():
         obj = object.objects.create(**values)
@@ -25,8 +34,8 @@ def create_warehouse_tables() -> dict:
         "shed3": {"shed": "SHED003", "capacity": 3000},
     }
     created_sheds = create_objects_from_dict(Shed, SHED_DATA)
-    if len(created_sheds) < 0:
-        raise Exception("Failed to create Sheds")
+    if len(created_sheds) == 0:
+        raise RuntimeError("Failed to create Sheds")
 
     RACK_DATA = {
         "rack1": {
@@ -61,8 +70,8 @@ def create_warehouse_tables() -> dict:
         },
     }
     created_racks = create_objects_from_dict(Rack, RACK_DATA)
-    if len(created_racks) < 0:
-        raise Exception("Failed to create Racks")
+    if len(created_racks) == 0:
+        raise RuntimeError("Failed to create Racks")
 
     ITEM_DATA = {
         "item1": {
@@ -137,42 +146,42 @@ def create_warehouse_tables() -> dict:
         },
     }
     created_items = create_objects_from_dict(Item, ITEM_DATA)
-    if len(created_items) < 0:
-        raise Exception("Failed to create Items")
+    if len(created_items) == 0:
+        raise RuntimeError("Failed to create Items")
 
-    return {created_sheds, created_racks, created_items}
+    return {"sheds": created_sheds, "racks": created_racks, "items": created_items}
 
 
 def create_menu_data() -> dict:
     CUSTOMGROUP_DATA = {
         "default": {
             "name": "Default",
-            "manager": fetch_exiting_objects(CustomUser, "first_name='admin'"),
+            "manager": fetch_exiting_objects(CustomUser, ADMIN_NAME),
         },
         "hr": {
             "name": "HR",
-            "manager": fetch_exiting_objects(CustomUser, "first_name='admin'"),
+            "manager": fetch_exiting_objects(CustomUser, ADMIN_NAME),
         },
         "warehouse": {
             "name": "Warehouse",
-            "manager": fetch_exiting_objects(CustomUser, "first_name='admin'"),
+            "manager": fetch_exiting_objects(CustomUser, ADMIN_NAME),
         },
         "reports": {
             "name": "Reports",
-            "manager": fetch_exiting_objects(CustomUser, "first_name='admin'"),
+            "manager": fetch_exiting_objects(CustomUser, ADMIN_NAME),
         },
         "sales": {
             "name": "Sales",
-            "manager": fetch_exiting_objects(CustomUser, "first_name='admin'"),
+            "manager": fetch_exiting_objects(CustomUser, ADMIN_NAME),
         },
         "purchases": {
             "name": "Purchases",
-            "manager": fetch_exiting_objects(CustomUser, "first_name='admin'"),
+            "manager": fetch_exiting_objects(CustomUser, ADMIN_NAME),
         },
     }
     created_customgroups = create_objects_from_dict(CustomGroup, CUSTOMGROUP_DATA)
-    if len(created_customgroups) < 0:
-        raise Exception("Failed to create CustomGroups")
+    if len(created_customgroups) == 0:
+        raise RuntimeError("Failed to create CustomGroups")
 
     MENU_DATA = {
         "dash": {
@@ -188,7 +197,7 @@ def create_menu_data() -> dict:
             "submenu": "Payroll",
             "icon": "fas fa-money-check-alt",
             "url": "register_login:payroll",
-            "group": fetch_exiting_objects(CustomGroup, "name='HR'"),
+            "group": fetch_exiting_objects(CustomGroup, HR_NAME),
             "subgroup": None,
         },
         "timekeeping": {
@@ -196,15 +205,15 @@ def create_menu_data() -> dict:
             "submenu": "Timekeeping",
             "icon": "fas fa-clock",
             "url": "register_login:timekeeping",
-            "group": fetch_exiting_objects(CustomGroup, "name='HR'"),
+            "group": fetch_exiting_objects(CustomGroup, HR_NAME),
             "subgroup": None,
         },
         "employees": {
             "menu": "HR",
             "submenu": "Employees",
-            "icon": "fas fa-users",
+            "icon": USERS_ICON_CLASS,
             "url": "register_login:employees",
-            "group": fetch_exiting_objects(CustomGroup, "name='HR'"),
+            "group": fetch_exiting_objects(CustomGroup, HR_NAME),
             "subgroup": None,
         },
         "inventory": {
@@ -212,7 +221,7 @@ def create_menu_data() -> dict:
             "submenu": "Inventory",
             "icon": "fas fa-boxes",
             "url": "warehouse:inventory",
-            "group": fetch_exiting_objects(CustomGroup, "name='Warehouse'"),
+            "group": fetch_exiting_objects(CustomGroup, WAREHOUSE_NAME),
             "subgroup": None,
         },
         "orders": {
@@ -220,7 +229,7 @@ def create_menu_data() -> dict:
             "submenu": "Orders",
             "icon": "fas fa-shopping-cart",
             "url": "warehouse:orders",
-            "group": fetch_exiting_objects(CustomGroup, "name='Warehouse'"),
+            "group": fetch_exiting_objects(CustomGroup, WAREHOUSE_NAME),
             "subgroup": None,
         },
         "suppliers": {
@@ -228,7 +237,7 @@ def create_menu_data() -> dict:
             "submenu": "Suppliers",
             "icon": "fas fa-truck",
             "url": "warehouse:suppliers",
-            "group": fetch_exiting_objects(CustomGroup, "name='Warehouse'"),
+            "group": fetch_exiting_objects(CustomGroup, WAREHOUSE_NAME),
             "subgroup": None,
         },
         "sales": {
@@ -236,7 +245,7 @@ def create_menu_data() -> dict:
             "submenu": "Sales",
             "icon": "fas fa-chart-line",
             "url": "reports:sales",
-            "group": fetch_exiting_objects(CustomGroup, "name='Reports'"),
+            "group": fetch_exiting_objects(CustomGroup, REPORTS_NAME),
             "subgroup": None,
         },
         "purchases": {
@@ -244,34 +253,34 @@ def create_menu_data() -> dict:
             "submenu": "Purchases",
             "icon": "fas fa-chart-line",
             "url": "reports:purchases",
-            "group": fetch_exiting_objects(CustomGroup, "name='Reports'"),
+            "group": fetch_exiting_objects(CustomGroup, REPORTS_NAME),
             "subgroup": None,
         },
         "customers": {
             "menu": "Reports",
             "submenu": "Customers",
-            "icon": "fas fa-users",
+            "icon": USERS_ICON_CLASS,
             "url": "reports:customers",
-            "group": fetch_exiting_objects(CustomGroup, "name='Sales'"),
+            "group": fetch_exiting_objects(CustomGroup, SALES_NAME),
             "subgroup": None,
         },
         "vendors": {
             "menu": "Reports",
             "submenu": "Vendors",
-            "icon": "fas fa-users",
+            "icon": USERS_ICON_CLASS,
             "url": "reports:vendors",
-            "group": fetch_exiting_objects(CustomGroup, "name='Purchases'"),
+            "group": fetch_exiting_objects(CustomGroup, PURCHASES_NAME),
             "subgroup": None,
         },
     }
     created_menus = create_objects_from_dict(Menu, MENU_DATA)
-    if len(created_menus) < 0:
-        raise Exception("Failed to create Menus")
+    if len(created_menus) == 0:
+        raise RuntimeError("Failed to create Menus")
 
     # USER_DATA = {
     # }
     # created_users = create_objects_from_dict(CustomUser, USER_DATA)
-    # if len(created_users) < 0:
-    #     raise Exception('Failed to create Users')
+    # if len(created_users) == 0:
+    #     raise RuntimeError('Failed to create Users')
 
-    return {created_customgroups, created_menus}
+    return {"customgroups": created_customgroups, "menus": created_menus}

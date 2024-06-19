@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 import os
+from secrets import token_hex
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -18,7 +19,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Get the environment variable
 ENV_ROLE = os.getenv("ENV_ROLE", "development")
-
 # Load different settings based on the environment
 if ENV_ROLE == "production":
     # from .production_settings import *
@@ -27,13 +27,13 @@ elif ENV_ROLE == "development":
     # from .development_settings import *
     DEBUG = True
 else:
-    raise Exception("The ENV_ROLE environment variable is required to be set")
+    raise ValueError("The ENV_ROLE environment variable is required to be set")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-b1l4cgbj3e9_&4gm4+p3b_87rscg5qu0_fuo)hxro&i0n=dn()"
+SECRET_KEY = os.environ.get("SECRET_KEY", token_hex(64))
 
 ALLOWED_HOSTS = [
     ".vercel.app",

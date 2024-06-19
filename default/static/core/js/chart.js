@@ -1,3 +1,11 @@
+/* `bad-practice` `es2015`
+ * Unexpected var (`ctx`, myLineChart`), use let or const instead.
+ *
+ * As this is just a demo, the rendering of the information in the graph is still not implemented. Due to this, this
+ * piece of code will remain as is until the final implementation is done.
+*/
+
+
 // chart-area-demo.js *******************************************
 // Set new default font family and font color to mimic Bootstrap's default styling
 Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';

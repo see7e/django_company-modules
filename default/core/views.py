@@ -5,6 +5,7 @@ from .db import create_warehouse_tables, create_menu_data
 ####################################################################################################
 import subprocess
 from warehouse.models import Shed, Rack, Item
+import os
 
 # creates some initial data for the database, so you can see how the application works
 #    without having to create a bunch of data yourself. It's a good idea to remove this file from the
@@ -12,11 +13,12 @@ from warehouse.models import Shed, Rack, Item
 
 
 def dev_build(superuser: dict):
-    subprocess.run(["../manage.py", "makemigrations"])
-    subprocess.run(["../manage.py", "migrate"])
+    MANAGE_PY_PATH = os.path.join(os.path.dirname(__file__), "..", "manage.py")
+    subprocess.run([MANAGE_PY_PATH, "makemigrations"])
+    subprocess.run([MANAGE_PY_PATH, "migrate"])
     subprocess.run(
         [
-            "../manage.py",
+            MANAGE_PY_PATH,
             "createsuperuser",
             "--firstname",
             superuser.firstname,
