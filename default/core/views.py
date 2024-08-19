@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .db import create_warehouse_tables, create_menu_data
+from core.models import CustomUser
+from core.db import create_warehouse_tables, create_menu_data
 
 ####################################################################################################
 import subprocess
@@ -12,32 +13,24 @@ import os
 #    project before deploying it to a production server.
 
 
-def dev_build(superuser: dict):
-    MANAGE_PY_PATH = os.path.join(os.path.dirname(__file__), "..", "manage.py")
-    subprocess.run([MANAGE_PY_PATH, "makemigrations"])
-    subprocess.run([MANAGE_PY_PATH, "migrate"])
-    subprocess.run(
-        [
-            MANAGE_PY_PATH,
-            "createsuperuser",
-            "--firstname",
-            superuser.firstname,
-            "--lastname",
-            superuser.lastname,
-            "--email",
-            superuser.email,
-            "--password",
-            superuser.password,
-        ]
-    )
-
-
 def dev_fill_tables(request):
+    """ Creates filler data for project visualization """
     all_data = {}
     message = ""
+    manager_user, created = CustomUser.objects.get_or_create(
+        email="admin@mail.com",
+        first_name="Admin",
+        last_name="Admin",
+        is_superuser=True,
+        is_staff=True,
+        is_active=True,
+    )
+
+    all_data = {}
+    message = ""
+    all_data["register_login"] = create_menu_data(manager=manager_user)
     # create Data (
     #   register_login{CustomUser, CustomGroup, CustomSubGroup, Menu,
-    all_data["register_login"] = create_menu_data()
     #   warehouse{Shed, Rack, Item,},
     all_data["warehouse"] = create_warehouse_tables()
     #   hr{},
