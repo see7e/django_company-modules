@@ -114,11 +114,26 @@ WSGI_APPLICATION = "settings.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+DATABASES_ROUTERS = [
+    "routers.db_router.CoreRouter", # db_core
+    "routers.db_router.UsersRouter", # db_users
+    "routers.db_router.WarehouseRouter", # db_warehouse
+]
+
 DATABASES = {
-    "default": {
+    "default": {},
+    "db_core": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+        "NAME": BASE_DIR / "db_core.sqlite3",
+    },
+    "db_users": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db_users.sqlite3",
+    },
+    "db_warehouse": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db_warehouse.sqlite3",
+    },
 }
 
 
