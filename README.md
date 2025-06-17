@@ -1,3 +1,12 @@
+---
+title: Django Company Modules
+description: "A collection of modules for enterprise applications"
+tags: MVP
+use: Project
+languages: Python
+dependences: Django
+---
+
 > [!WARNING]
 > **The current used version of Python in the Vercel platform is 3.9, this project uses Django 5.x, which is not compatible. Sadly, the page will remain offline until there.**
 
@@ -101,3 +110,7 @@ Your feedback is invaluable in shaping the future direction of the Default Proje
 - [Issue Tracker](https://github.com/default-project/issues)
 - [Community Forums](https://forums.defaultproject.com)
 - [License Information](https://github.com/default-project/LICENSE)
+
+- [Spec](./default/docs/SPEC.md)
+- [TODO](./default/docs/TODO.md)
+- [LICENSE](./default/LICENSE)

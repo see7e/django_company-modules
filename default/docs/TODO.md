@@ -1,3 +1,12 @@
+---
+title: "Django Company Modules: TODO"
+description: "Functional and business scope of the project"
+tags: studies, programming, MVP
+use: Project
+languages: Python
+dependences: Django
+---
+
 # TODO
 
 > next steps to be done

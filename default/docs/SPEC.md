@@ -1,3 +1,12 @@
+---
+title: "Django Company Modules: Specification"
+description: "A collection of modules for enterprise applications"
+tags: studies, programming, MVP
+use: Project
+languages: Python
+dependences: Django
+---
+
 # SPECIFICATION
 
 ## Overview
